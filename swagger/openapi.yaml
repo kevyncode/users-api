@@ -1,0 +1,198 @@
+openapi: 3.1.1
+info:
+  title: Users API
+  description: API for user management
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Development server
+
+paths:
+  /api/users:
+    post:
+      summary: Create a new user
+      description: Creates a new user in the system
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+            example:
+              name: "javier"
+              login: "jroca"
+              password: "pass123"
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              example:
+                id: "4e542f0d-f9ff-47c3-88e2-90f6e82b0ac9"
+                name: "javier"
+                login: "jroca"
+    get:
+      summary: List users
+      description: List all users
+      operationId: getUsers
+      responses:
+        '200':
+          description: Users found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+        '404':
+          description: Users not found  
+  /api/users/{id}:
+    patch:
+      tags:
+        - Users
+      summary: Update user (partial)
+      description: Updates one or more fields of an existing user
+      operationId: patchUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "4e542f0d-f9ff-47c3-88e2-90f6e82b0ac9"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+            examples:
+              updateName:
+                summary: Update user's name
+                value:
+                  name: "javier2"
+              updateLogin:
+                summary: Update user's login
+                value:
+                  login: "jroca2"
+              updatePassword:
+                summary: Update user's password
+                value:
+                  password: "NewSecurePassword123!"
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+              example:
+                id: "4e542f0d-f9ff-47c3-88e2-90f6e82b0ac9"
+                name: "javier2"
+                login: "jroca2"
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                invalidName:
+                  summary: Invalid name input
+                  value:
+                    error: "Invalid name; cannot be null, empty or contain only space characters."
+                invalidLogin:
+                  summary: Invalid login input
+                  value:
+                    error: "Invalid login; cannot be null, empty or contain only space characters."
+                invalidPassword:
+                  summary: Invalid password input
+                  value:
+                    error: "Invalid password; cannot be null, empty or contain only space characters."
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "User not found"
+    delete:
+      summary: Delete an existing user
+      description: Deletes a user by its unique identifier (GUID).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Unique identifier of the user (GUID)
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: User deleted successfully (no content returned).
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "User not found"
+
+components:
+  schemas:
+    CreateUserRequest:
+      type: object
+      required:
+        - name
+        - login
+        - password
+      properties:
+        name:
+          type: string
+          description: User's name
+        login:
+          type: string
+          description: User's unique login
+        password:
+          type: string
+          description: User's password
+    UpdateUserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: User's name
+        login:
+          type: string
+          description: User's unique login
+        password:
+          type: string
+          description: User's password
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: User's unique ID
+        name:
+          type: string
+          description: User's name
+        login:
+          type: string
+          description: User's login
