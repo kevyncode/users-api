@@ -760,4 +760,4 @@ spring.jpa.hibernate.ddl-auto=create-drop
 
 ## 📝 License
 
-This project is part of an academic assignment for Software Development 3 course.
+This project is a personal study project for learning and practicing modern Spring Boot development and RESTful API design patterns.
