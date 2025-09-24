@@ -7,7 +7,9 @@ import jalau.usersapi.presentation.dtos.UserCreateDto;
 import jalau.usersapi.presentation.dtos.UserResponseDto;
 import jalau.usersapi.presentation.mappers.UserCreateDtoToUserMapper;
 import jalau.usersapi.presentation.mappers.UserToUserResponseDtoMapper;
+import jalau.usersapi.presentation.mappers.UserUpdateDtoToUserMapper;
 import jalau.usersapi.presentation.validators.UserCreateDtoValidator;
+import jalau.usersapi.presentation.validators.UserUpdateDtoValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,13 +44,19 @@ public class UserCommandControllerConflictTest {
 
     private UserCommandController userCommandController;
 
+    @Mock
+    private UserUpdateDtoToUserMapper userUpdateDtoToUserMapper;
+
+    @Mock
+    private UserUpdateDtoValidator userUpdateDtoValidator;
+
     @BeforeEach
     void setUp() {
         userCommandController = new UserCommandController(
             userCommandService,
             userCreateDtoToUserMapper,
             userToUserResponseDtoMapper,
-            userCreateDtoValidator
+            userCreateDtoValidator, userUpdateDtoToUserMapper, userUpdateDtoValidator
         );
     }
 

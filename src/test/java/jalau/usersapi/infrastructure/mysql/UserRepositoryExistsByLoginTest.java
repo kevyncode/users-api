@@ -1,5 +1,6 @@
 package jalau.usersapi.infrastructure.mysql;
 
+import jalau.usersapi.core.domain.entities.User;
 import jalau.usersapi.infrastructure.mysql.entities.DbUser;
 import jalau.usersapi.infrastructure.mysql.mappers.DbUserToUserMapper;
 import jalau.usersapi.infrastructure.mysql.mappers.UserToDbUserMapper;
@@ -10,6 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

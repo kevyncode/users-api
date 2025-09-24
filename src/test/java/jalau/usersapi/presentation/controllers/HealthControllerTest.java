@@ -3,6 +3,8 @@ package jalau.usersapi.presentation.controllers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -15,6 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * using Spring Boot's WebMvcTest for lightweight testing.
  */
 @WebMvcTest(HealthController.class)
+@AutoConfigureWebMvc
+@TestPropertySource(properties = {
+    "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
+})
 class HealthControllerTest {
     
     /**
